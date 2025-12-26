@@ -79,7 +79,7 @@ A comprehensive personal productivity and time management application designed t
 
 2. **Install dependencies for the web app:**
    ```bash
-   cd create-anything/_/apps/web
+   cd _/apps/web
    npm install
    ```
 
@@ -94,7 +94,7 @@ A comprehensive personal productivity and time management application designed t
 #### Web App
 
 ```bash
-cd create-anything/_/apps/web
+cd _/apps/web
 npm run dev
 ```
 
@@ -103,7 +103,7 @@ The web app will start on `http://localhost:4000`
 #### Mobile App
 
 ```bash
-cd create-anything/_/apps/mobile
+cd _/apps/mobile
 npx expo start
 ```
 
@@ -135,7 +135,7 @@ This will start the Expo development server. You can then:
 ### Project Structure
 
 ```
-create-anything/_/apps/
+_/apps/
 ├── web/                    # Web application
 │   ├── src/
 │   │   ├── app/           # React Router pages
