@@ -1,6 +1,5 @@
 import { readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
 import type { Handler } from 'hono/types';
 import updatedFetch from '../src/__create/fetch';
@@ -140,7 +139,17 @@ async function registerRoutes() {
 }
 
 // Initial route registration
-await registerRoutes();
+// Skip dynamic route discovery in production SSR builds to avoid hangs
+// During SSR build, Vite needs to statically analyze imports, and dynamic
+// await import() at top-level can cause the build to hang indefinitely.
+if (import.meta.env.SSR && import.meta.env.PROD) {
+  // Production SSR: routes will be handled by the client-side app
+  // API routes should be deployed separately or handled by edge functions
+  console.debug('[route-builder] Skipping API route registration in production SSR build');
+} else {
+  // Development or client build: register routes dynamically
+  await registerRoutes();
+}
 
 // Hot reload routes in development
 if (import.meta.env.DEV) {
