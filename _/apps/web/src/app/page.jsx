@@ -4,75 +4,18 @@ import { useState, useEffect } from "react";
 import { Calendar, Clock, Target, BookOpen, Timer, Edit3 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { registerServiceWorker } from "./register-sw";
+import { useTimePhaseTheme } from "../hooks/useTimePhaseTheme";
 import BottomNavigation from "../components/BottomNavigation";
 
 export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [dailyIntention, setDailyIntention] = useState("");
   const [isEditingIntention, setIsEditingIntention] = useState(false);
-  const [timePhase, setTimePhase] = useState("midday");
-  const [themeColors, setThemeColors] = useState({
-    bg: "#FAFAF7",
-    text: "#2B2B2B",
-    textSecondary: "#6B6B6B",
-    accent: "#8FA6B8",
-    surface: "#FFFFFF",
-  });
+  const { timePhase, themeColors } = useTimePhaseTheme();
 
   // Register service worker on mount
   useEffect(() => {
     registerServiceWorker();
-  }, []);
-
-  // Time phase detection
-  useEffect(() => {
-    const updateTimePhase = () => {
-      const hour = new Date().getHours();
-      let phase = "midday";
-      let colors = {
-        bg: "#FAFAF7",
-        text: "#2B2B2B",
-        textSecondary: "#6B6B6B",
-        accent: "#8FA6B8",
-        surface: "#FFFFFF",
-      };
-
-      if (hour >= 5 && hour < 9.5) {
-        phase = "morning";
-        colors = {
-          bg: "#FBFAF6",
-          text: "#2B2B2B",
-          textSecondary: "#6B6B6B",
-          accent: "#9CAF88",
-          surface: "#FFFFFF",
-        };
-      } else if (hour >= 16.5 && hour < 21) {
-        phase = "evening";
-        colors = {
-          bg: "#F4F1EC",
-          text: "#2B2B2B",
-          textSecondary: "#6B6B6B",
-          accent: "#C7A89B",
-          surface: "#FAF9F7",
-        };
-      } else if (hour >= 21 || hour < 5) {
-        phase = "night";
-        colors = {
-          bg: "#1F1F1C",
-          text: "#E7E6E2",
-          textSecondary: "#A8A7A3",
-          accent: "#8FA6B8",
-          surface: "#2A2A27",
-        };
-      }
-
-      setTimePhase(phase);
-      setThemeColors(colors);
-    };
-
-    updateTimePhase();
-    const interval = setInterval(updateTimePhase, 60000); // Check every minute
-    return () => clearInterval(interval);
   }, []);
 
   // Update current time
