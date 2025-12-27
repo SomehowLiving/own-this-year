@@ -8,15 +8,23 @@ import updatedFetch from '../src/__create/fetch';
 const API_BASENAME = '/api';
 const api = new Hono();
 
-// Get current directory
-const __dirname = join(fileURLToPath(new URL('.', import.meta.url)), '../src/app/api');
+// Get current directory (use process.cwd() instead of import.meta.url for stable paths)
+const __dirname = join(process.cwd(), 'src/app/api');
 if (globalThis.fetch) {
   globalThis.fetch = updatedFetch;
 }
 
 // Recursively find all route.js files
 async function findRouteFiles(dir: string): Promise<string[]> {
-  const files = await readdir(dir);
+  let files: string[];
+  try {
+    files = await readdir(dir);
+  } catch (err: any) {
+    if (err.code === 'ENOENT') {
+      return []; // Directory doesn't exist, return empty routes
+    }
+    throw err;
+  }
   let routes: string[] = [];
 
   for (const file of files) {
