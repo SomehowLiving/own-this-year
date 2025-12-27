@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, Clock, Target, BookOpen, Timer } from "lucide-react";
+import { Calendar, Clock, Target, BookOpen, Timer, Edit3 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { registerServiceWorker } from "./register-sw";
 import BottomNavigation from "../components/BottomNavigation";
 
@@ -373,6 +374,50 @@ export default function Dashboard() {
               >
                 <Timer size={20} style={{ color: themeColors.surface }} />
               </button>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div
+            className="rounded-2xl p-6 transition-colors duration-[2400000]"
+            style={{ backgroundColor: themeColors.surface }}
+          >
+            <p
+              className="text-sm mb-4 transition-colors duration-[2400000]"
+              style={{ color: themeColors.textSecondary }}
+            >
+              Quick Links
+            </p>
+            <div className="flex gap-3">
+              <Link
+                to="/journal"
+                className="flex-1 rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:opacity-80"
+                style={{
+                  backgroundColor: themeColors.bg,
+                  color: themeColors.text,
+                  border: `1px solid ${timePhase === "night" ? "#3A3A37" : "#E5E5E5"}`,
+                }}
+              >
+                <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor: themeColors.accent }}>
+                  <BookOpen size={18} style={{ color: themeColors.surface }} />
+                </div>
+                <div className="flex-1 text-sm font-medium">Journal</div>
+              </Link>
+
+              <Link
+                to="/review"
+                className="flex-1 rounded-xl px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:opacity-80"
+                style={{
+                  backgroundColor: themeColors.bg,
+                  color: themeColors.text,
+                  border: `1px solid ${timePhase === "night" ? "#3A3A37" : "#E5E5E5"}`,
+                }}
+              >
+                <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor: themeColors.accent }}>
+                  <Edit3 size={18} style={{ color: themeColors.surface }} />
+                </div>
+                <div className="flex-1 text-sm font-medium">Review</div>
+              </Link>
             </div>
           </div>
         </div>
