@@ -35,6 +35,14 @@ export default defineConfig({
   plugins: [
     nextPublicProcessEnv(),
     restartEnvFileChange(),
+    {
+      name: 'disable-api-hmr',
+      handleHotUpdate({ file }) {
+        if (file.includes('/api/')) {
+          return [];
+        }
+      },
+    },
     reactRouterHonoServer({
       serverEntryPoint: './__create/index.ts',
       runtime: 'node',
@@ -79,6 +87,9 @@ export default defineConfig({
   },
   clearScreen: false,
   server: {
+    fs: {
+      strict: false,
+    },
     allowedHosts: true,
     host: '0.0.0.0',
     port: 4000,
